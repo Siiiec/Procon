@@ -45,7 +45,6 @@ constexpr T fold(std::initializer_list<T> args, T init, BinaryOperation op)
 // numeric_low
 namespace numeric
 {
-    // 最大公約数
     template<class T>
     constexpr T gcd(const T x, const T y)
     {
@@ -54,7 +53,6 @@ namespace numeric
         return (!y) ? x : gcd(y, x % y);
     }
 
-    // 最小公倍数
     template<class T>
     constexpr T lcm(const T x, const T y)
     {
@@ -64,7 +62,6 @@ namespace numeric
     }
 }
 
-// argsからハッシュ値を作成
 template <class... Args>
 std::size_t hash(Args... args)
 {
@@ -99,8 +96,52 @@ void printAll(const std::initializer_list<T>& ini, std::string delimiter)
     printAll(ini.begin(), ini.end(), delimiter);
 }
 
+
+void print(std::vector<int> v)
+{
+    for (auto e : v)
+    {
+        std::cout << e << std::endl;
+    }
+
+}
+
 int main()
 {
+    using namespace std;
+
+    int n, m;
+    cin >> n >> m;
+
+    vec<int> E(m);
+
+    for (auto& e : E)
+        cin >> e;
+
+
+    vec<int> used(n + 1, -1);
+
+    for (auto e : E)
+    {
+        used[e]++;
+    }
     
+    for_each(make_reverse_iterator(E.cend()), make_reverse_iterator(E.cbegin()), [&used](int e)
+    {
+        if (used[e] >= 0)
+        {
+            cout << e << endl;
+            used[e] = -2;
+        }
+    });
+    
+
+    for (int i = 1; i <=n; ++i)
+    {
+        if (used[i] == -1)
+            cout << i << endl;
+    }
+    
+
     return 0;
 }
